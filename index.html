@@ -3,278 +3,416 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Екатерине из Петербурга</title>
+<title>Для Екатерины</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500;1,600&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* VOICE: tender, warm, a letter between close friends
-   IDEA: a winter postcard from Петербург — drawbridges open to let the letter through
-   PICTURE: layered night skyline over the Neva: Petropavlovka spire, Admiralty, Winter Palace, Palace Bridge that rises
-   COLOUR and TYPE: Neva night blue, Hermitage mint, gold of the spires, white-night pink; Cormorant Garamond + Manrope
-   LAYOUT: full-bleed scene first, then letter, reasons, wishes, hugs — one calm column */
-:root{color-scheme:dark;--neva:#0f1e38;--neva2:#16294a;--mint:#8cc7b3;--gold:#e2bf68;--pink:#f2a9a3;--snow:#f6f3ec;--ink:#f6f3ec;--mute:#b9c4d6;--card:#1a2f53}
+/* VOICE: tender, warm, between close friends; no romance
+   IDEA: a postcard from Петербург — the drawbridge opens and lets the letter through, like people opening to each other
+   PICTURE: layered night city over the Neva with parallax depth, reflections, fog, foreground railing and lanterns
+   COLOUR and TYPE: Neva night blue, Hermitage mint, spire gold, white-night pink; Cormorant Garamond + Manrope
+   LAYOUT: full-screen scene, then letter, arched-window cards, a future walk, a warm word, tea at a distance */
+:root{color-scheme:dark;--neva:#0d1a33;--deep:#091428;--neva2:#132647;--mint:#8cc7b3;--gold:#e2bf68;--gold2:#f6dc95;--pink:#f2a9a3;--snow:#f6f3ec;--ink:#f6f3ec;--mute:#b6c2d6;--glass:rgba(255,255,255,.06);--line:rgba(226,191,104,.32);--ease:cubic-bezier(.65,0,.25,1)}
 *{box-sizing:border-box;min-width:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:20px}
+@supports not selector(::-webkit-scrollbar){html{scrollbar-color:var(--gold) var(--deep);scrollbar-width:thin}}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:var(--deep)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold2),var(--gold) 45%,var(--mint));border-radius:20px;border:3px solid var(--deep)}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#fff0c2,var(--gold2) 50%,var(--mint))}
+::selection{background:var(--gold);color:#1d1406}
 body{margin:0;background:var(--neva);color:var(--ink);font:16px/1.6 Manrope,system-ui,sans-serif;overflow-x:clip}
 h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;line-height:1.05;text-wrap:balance;margin:0}
-h1{font-size:clamp(40px,7vw,76px)}
-h2{font-size:clamp(32px,4.5vw,48px);margin-bottom:18px}
-.band{padding:clamp(40px,6vw,88px) max(5vw,16px)}
-.wrap{max-width:900px;margin:0 auto}
-button{font:600 16px Manrope,sans-serif;min-height:48px;padding:0 24px;border-radius:999px;border:0;cursor:pointer;transition:transform .2s,background .2s}
-button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-button:active{transform:scale(.97)}
-.btn{background:var(--gold);color:#2a1c05}
-.btn:hover{background:#f0d283}
-.ghost{background:transparent;color:var(--ink);border:1.5px solid rgba(246,243,236,.4)}
-.ghost:hover{border-color:var(--gold);color:var(--gold)}
+h2{font-size:clamp(34px,5vw,52px);margin-bottom:14px}
+.lead{color:var(--mute);max-width:36em;margin:0 0 34px;font-size:17px}
+.band{position:relative;padding:clamp(64px,9vw,128px) max(5vw,18px)}
+.wrap{max-width:1080px;margin:0 auto;position:relative}
+button{font:700 16px Manrope,sans-serif;min-height:50px;padding:0 26px;border-radius:999px;border:0;cursor:pointer;transition:transform .35s var(--ease),background .3s,box-shadow .3s}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold2);outline-offset:3px}
+.btn{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#2a1c05;box-shadow:0 10px 30px -10px rgba(226,191,104,.7)}
+.btn:hover{transform:translateY(-2px);box-shadow:0 16px 40px -12px rgba(226,191,104,.9)}
+.ghost{background:var(--glass);color:var(--ink);border:1px solid var(--line);backdrop-filter:blur(10px)}
+.ghost:hover{border-color:var(--gold);color:var(--gold2)}
+
+/* progress + dock */
+#prog{position:fixed;top:0;left:0;right:0;height:3px;z-index:50;background:linear-gradient(90deg,var(--mint),var(--gold2),var(--pink));transform-origin:0 50%;transform:scaleX(0)}
+.dock{position:fixed;left:50%;bottom:16px;transform:translateX(-50%) translateY(140%);z-index:40;display:flex;gap:4px;padding:6px;border-radius:999px;background:rgba(9,20,40,.62);border:1px solid var(--line);backdrop-filter:blur(16px) saturate(1.4);transition:transform .6s var(--ease);max-width:calc(100vw - 24px);overflow-x:auto;scrollbar-width:none}
+.dock.on{transform:translateX(-50%)}
+.dock a{flex:none;color:var(--mute);text-decoration:none;font-size:14px;font-weight:600;padding:10px 14px;border-radius:999px;transition:background .3s,color .3s}
+.dock a:hover,.dock a.act{background:rgba(226,191,104,.16);color:var(--gold2)}
 
 /* hero */
-.hero{position:relative;min-height:min(100svh,860px);display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden;background:linear-gradient(180deg,#1b2b55 0%,#3b3f72 38%,#b77a8f 66%,#f2b8a6 78%,#0f1e38 78.2%)}
-.hero .txt{position:relative;z-index:3;text-align:center;padding:clamp(48px,9vh,110px) 20px 0}
-.hero .kicker{font-size:17px;color:#ffe3d6;margin:0 0 12px;font-style:italic;font-family:"Cormorant Garamond",serif;font-size:22px}
-.hero p.sub{max-width:34em;margin:16px auto 26px;color:#fdeee8;font-size:17px}
-.scene{position:absolute;inset:auto 0 0 0;height:62%;z-index:2}
-.scene svg{width:100%;height:100%;display:block}
-#snow{position:absolute;inset:0;z-index:4;pointer-events:none;width:100%;height:100%}
-.leaf{transition:transform 2.4s cubic-bezier(.6,.05,.3,1)}
-.open .leafL{transform:rotate(-34deg)}
-.open .leafR{transform:rotate(34deg)}
-.moon{animation:glow 6s ease-in-out infinite alternate}
-@keyframes glow{to{opacity:.75}}
-.ripple{animation:drift 7s linear infinite}
-@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-80px)}}
+.hero{position:relative;height:100svh;min-height:620px;max-height:1100px;overflow:hidden;background:radial-gradient(120% 70% at 50% 72%,#f6bfa9 0%,#c98897 22%,#5a4f86 46%,#1f2b58 70%,#0d1a33 100%);-webkit-mask-image:linear-gradient(#000 88%,transparent);mask-image:linear-gradient(#000 88%,transparent)}
+.stars{position:absolute;inset:0 0 45% 0;background-image:radial-gradient(1.2px 1.2px at 12% 18%,#fff 60%,transparent),radial-gradient(1px 1px at 28% 8%,#fff 60%,transparent),radial-gradient(1.4px 1.4px at 46% 22%,#fff 60%,transparent),radial-gradient(1px 1px at 63% 12%,#fff 60%,transparent),radial-gradient(1.3px 1.3px at 78% 26%,#fff 60%,transparent),radial-gradient(1px 1px at 88% 9%,#fff 60%,transparent),radial-gradient(1px 1px at 6% 34%,#fff 60%,transparent),radial-gradient(1.2px 1.2px at 92% 38%,#fff 60%,transparent);opacity:.75;animation:tw 5s ease-in-out infinite alternate}
+@keyframes tw{to{opacity:.35}}
+.moon{position:absolute;width:clamp(56px,7vw,92px);aspect-ratio:1;right:12%;top:14%;border-radius:50%;background:radial-gradient(circle at 38% 35%,#fffaf0,#f8e6c4 60%,#e9cf9a);box-shadow:0 0 60px 20px rgba(255,233,190,.25)}
+.layer{position:absolute;inset:0;will-change:transform;pointer-events:none}
+.layer svg{position:absolute;left:50%;bottom:0;height:clamp(380px,66%,720px);width:auto;min-width:100%;transform:translateX(-50%)}
+.fog{position:absolute;inset:auto -10% 30% -10%;height:28%;background:radial-gradient(60% 100% at 30% 100%,rgba(246,200,190,.35),transparent 70%),radial-gradient(50% 90% at 75% 100%,rgba(180,170,220,.28),transparent 70%);filter:blur(18px);animation:fog 18s ease-in-out infinite alternate}
+@keyframes fog{to{transform:translateX(6%)}}
+.leaf{transition:transform 3.2s var(--ease)}
+.open .leafL{transform:rotate(-38deg)}
+.open .leafR{transform:rotate(38deg)}
+.shine{animation:drift 9s linear infinite}
+@keyframes drift{from{transform:translateX(0)}to{transform:translateX(-120px)}}
+.lamp{animation:flick 3s ease-in-out infinite alternate}
+@keyframes flick{to{opacity:.7}}
+.hero .txt{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(70px,13vh,150px) 20px 0;will-change:transform,opacity}
+.kicker{font:italic 500 clamp(20px,2.4vw,26px) "Cormorant Garamond",serif;color:#ffe6da;margin:0 0 10px}
+.hero h1{font-size:clamp(48px,9vw,112px);background:linear-gradient(100deg,#fff8ec 30%,var(--gold2) 46%,#fff 54%,#fff8ec 70%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:gleam 7s ease-in-out infinite;-webkit-mask-image:linear-gradient(180deg,#000 55%,rgba(0,0,0,.55));mask-image:linear-gradient(180deg,#000 55%,rgba(0,0,0,.55));filter:drop-shadow(0 6px 30px rgba(20,20,60,.4))}
+@keyframes gleam{0%,100%{background-position:100% 0}50%{background-position:0 0}}
+.hero p.sub{max-width:33em;margin:18px auto 28px;color:#fdeee8;font-size:clamp(16px,1.6vw,18px);text-shadow:0 2px 16px rgba(13,26,51,.6)}
+.bridge-note{margin-top:12px;font-size:14px;color:#ffe6da;opacity:.85;font-style:italic;font-family:"Cormorant Garamond",serif;font-size:19px;min-height:1.4em;transition:opacity .8s}
+#snow{position:absolute;inset:0;z-index:7;pointer-events:none;width:100%;height:100%}
+.cue{position:absolute;bottom:13%;left:50%;z-index:8;width:26px;height:42px;border:2px solid rgba(255,255,255,.5);border-radius:20px;transform:translateX(-50%)}
+.cue::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--gold2);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{to{transform:translateY(14px);opacity:0}}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(40px);filter:blur(8px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease),filter 1.1s var(--ease)}
+.rv.in{opacity:1;transform:none;filter:none}
 
 /* letter */
-.letter{background:var(--snow);color:#1d2740;border-radius:6px;padding:clamp(28px,5vw,56px);box-shadow:0 30px 60px -30px rgba(0,0,0,.6);position:relative;opacity:0;transform:translateY(30px);transition:opacity 1s,transform 1s}
-.letter.show{opacity:1;transform:none}
-.letter::before{content:"";position:absolute;inset:10px;border:1px solid rgba(160,125,50,.45);border-radius:3px;pointer-events:none}
-.letter h2{color:#1d2740}
-.letter p{font-family:"Cormorant Garamond",serif;font-size:clamp(20px,2.3vw,24px);line-height:1.45;margin:0 0 14px}
-.stamp{position:absolute;top:22px;right:22px;width:74px;height:88px;background:var(--mint);border:4px dotted var(--snow);outline:2px solid var(--mint);display:grid;place-items:center;transform:rotate(6deg)}
+#letter{background:radial-gradient(80% 60% at 50% 0%,#17305a,transparent 70%),var(--neva)}
+.lock{text-align:center;padding:40px 20px;border:1px dashed var(--line);border-radius:28px;background:var(--glass)}
+.lock p{color:var(--mute);margin:0 0 18px;font-size:17px}
+.paper{position:relative;max-width:820px;margin:0 auto;color:#1d2740;padding:clamp(34px,6vw,72px) clamp(24px,6vw,80px);background:radial-gradient(120% 90% at 0% 0%,#fffdf7,#f3ede0 60%,#e9e0cc);border-radius:6px;box-shadow:0 50px 90px -40px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.4) inset;clip-path:inset(0 50% 0 50% round 6px);transition:clip-path 2.6s var(--ease);-webkit-mask-image:radial-gradient(circle at 50% 0,transparent 7px,#000 7.5px),linear-gradient(#000,#000);-webkit-mask-size:22px 14px,100% calc(100% - 14px);-webkit-mask-repeat:repeat-x,no-repeat;-webkit-mask-position:top,bottom;mask-image:radial-gradient(circle at 50% 0,transparent 7px,#000 7.5px),linear-gradient(#000,#000);mask-size:22px 14px,100% calc(100% - 14px);mask-repeat:repeat-x,no-repeat;mask-position:top,bottom}
+.paper.show{clip-path:inset(0 0 0 0 round 6px)}
+.paper::before{content:"";position:absolute;inset:22px 14px 14px;border:1px solid rgba(160,125,50,.4);pointer-events:none}
+.paper h3{font-size:clamp(30px,4vw,44px);margin:0 90px 22px 0;color:#1d2740}
+.paper p{font:500 clamp(20px,2.3vw,25px)/1.5 "Cormorant Garamond",serif;margin:0 0 16px;opacity:0;transform:translateY(14px);transition:opacity 1s,transform 1s var(--ease)}
+.paper.show p{opacity:1;transform:none}
+.paper.show p:nth-of-type(2){transition-delay:.9s}.paper.show p:nth-of-type(3){transition-delay:1.3s}.paper.show p:nth-of-type(4){transition-delay:1.7s}.paper.show p:nth-of-type(5){transition-delay:2.1s}.paper.show p:nth-of-type(1){transition-delay:.5s}
 .sign{text-align:right;font-style:italic}
-.locked{text-align:center;color:var(--mute)}
+.stamp{position:absolute;top:30px;right:26px;width:78px;height:96px;padding:7px;background:radial-gradient(circle at 5px 5px,transparent 3px,#fffdf7 3.6px) -5px -5px/10px 10px;transform:rotate(7deg);filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+.stamp div{width:100%;height:100%;background:linear-gradient(#f2b8a6,#5a4f86);display:grid;place-items:end center}
 
-/* reasons */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:16px}
-.card{perspective:900px;height:190px;background:none;padding:0;border-radius:14px;color:inherit;text-align:start}
-.inner{position:relative;width:100%;height:100%;transition:transform .7s;transform-style:preserve-3d}
+/* cards: arched windows */
+#reasons{background:linear-gradient(180deg,var(--neva),var(--neva2))}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:22px}
+.card{position:relative;height:300px;padding:0;background:none;border-radius:150px 150px 18px 18px;color:inherit;text-align:center;perspective:1000px;transition:transform .5s var(--ease)}
+.inner{position:absolute;inset:0;transition:transform .9s var(--ease);transform-style:preserve-3d}
 .card.flip .inner{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;padding:22px;display:flex;flex-direction:column;justify-content:space-between}
-.front{background:var(--card);border:1px solid rgba(226,191,104,.35)}
-.front b{font-family:"Cormorant Garamond",serif;font-size:28px;color:var(--gold);font-weight:700;line-height:1.1}
-.front small{color:var(--mute);font-size:14px}
-.back{background:var(--mint);color:#10251f;transform:rotateY(180deg);font-size:17px;font-weight:600;justify-content:center}
-.hint{color:var(--mute);margin:-6px 0 22px}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:inherit;padding:30px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:150px 150px 18px 18px;overflow:hidden}
+.front{background:linear-gradient(180deg,rgba(242,169,163,.22),rgba(90,79,134,.25) 50%,rgba(13,26,51,.6)),var(--neva2);border:1px solid var(--line);box-shadow:0 0 0 6px rgba(226,191,104,.06) inset}
+.front::after{content:"";position:absolute;inset:14px;border-radius:140px 140px 10px 10px;border:1px solid rgba(226,191,104,.25)}
+.front::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(transparent,rgba(226,191,104,.35),transparent)}
+.front b{position:relative;z-index:1;font:700 30px/1.1 "Cormorant Garamond",serif;color:var(--gold2);background:var(--neva2);padding:6px 10px;border-radius:10px}
+.front small{position:relative;z-index:1;color:var(--mute);font-size:14px}
+.back{background:linear-gradient(160deg,#a7dccb,var(--mint));color:#0e2620;transform:rotateY(180deg);font-size:17px;font-weight:600;line-height:1.5}
+.ico{width:54px;height:54px;position:relative;z-index:1}
 
-/* wishes */
-.wish-band{background:var(--neva2)}
-.wish{font-family:"Cormorant Garamond",serif;font-size:clamp(26px,3.6vw,40px);line-height:1.2;min-height:3.8em;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--snow);transition:opacity .4s}
-.wish.fade{opacity:0}
-.center{text-align:center}
+/* walk */
+#walk{background:var(--neva2)}
+.route{position:relative;display:grid;gap:26px;padding-left:56px}
+.track{position:absolute;left:18px;top:6px;bottom:6px;width:3px;border-radius:3px;background:rgba(255,255,255,.08);overflow:hidden}
+.track i{position:absolute;inset:0;background:linear-gradient(var(--mint),var(--gold2),var(--pink));transform-origin:top;transform:scaleY(0)}
+.stop{position:relative;padding:22px 24px;border-radius:22px;background:var(--glass);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px)}
+.stop::before{content:"";position:absolute;left:-46px;top:28px;width:16px;height:16px;transform:rotate(45deg);background:var(--neva2);border:2px solid var(--gold);transition:background .6s}
+.stop.in::before{background:var(--gold)}
+.stop h3{font-size:clamp(24px,2.8vw,30px);color:var(--gold2);margin-bottom:6px}
+.stop p{margin:0;color:var(--mute)}
+.stop .t{font-size:14px;color:var(--pink);font-weight:700;display:block;margin-bottom:4px}
+@media(min-width:860px){.route{grid-template-columns:1fr 1fr;padding-left:0;column-gap:90px}.track{left:50%;margin-left:-1.5px}.stop:nth-child(odd){grid-column:1}.stop:nth-child(even){grid-column:2;margin-top:90px}.stop:nth-child(odd)::before{left:auto;right:-54px}.stop:nth-child(even)::before{left:-54px}}
 
-/* hugs */
-.hug{display:flex;flex-wrap:wrap;gap:28px;align-items:center;justify-content:center}
-.heart{width:150px;height:150px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffd0c9,var(--pink) 55%,#c86f78);display:grid;place-items:center;box-shadow:0 0 0 0 rgba(242,169,163,.5);font-size:15px;color:#3b1016;font-weight:700;padding:0}
-.heart.pulse{animation:pulse .6s}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(242,169,163,.7);transform:scale(1)}40%{transform:scale(1.12)}100%{box-shadow:0 0 0 40px rgba(242,169,163,0);transform:scale(1)}}
-.count{font-family:"Cormorant Garamond",serif;font-size:clamp(44px,7vw,72px);color:var(--gold);line-height:1}
-.hugmsg{color:var(--mute);max-width:24em}
-.float{position:fixed;pointer-events:none;z-index:9;color:var(--pink);font-size:26px;animation:up 1.6s ease-out forwards}
-@keyframes up{to{transform:translateY(-140px) scale(1.4);opacity:0}}
+/* word */
+.wave{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C 240 0 480 60 720 30 S 1200 0 1440 30 V60 H0Z'/%3E%3C/svg%3E"),linear-gradient(#000,#000);-webkit-mask-size:100% 60px,100% calc(100% - 59px);-webkit-mask-repeat:no-repeat;-webkit-mask-position:top,bottom;mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 30 C 240 0 480 60 720 30 S 1200 0 1440 30 V60 H0Z'/%3E%3C/svg%3E"),linear-gradient(#000,#000);mask-size:100% 60px,100% calc(100% - 59px);mask-repeat:no-repeat;mask-position:top,bottom;margin-top:-58px}
+#word{background:radial-gradient(70% 80% at 50% 50%,#2b3f73,#0f1f3d);overflow:hidden;text-align:center}
+.rose{position:absolute;left:50%;top:50%;width:min(640px,120vw);aspect-ratio:1;transform:translate(-50%,-50%);opacity:.16;animation:spin 90s linear infinite;-webkit-mask-image:radial-gradient(circle,#000 30%,transparent 70%);mask-image:radial-gradient(circle,#000 30%,transparent 70%)}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.wish{position:relative;font:italic 600 clamp(28px,4vw,46px)/1.2 "Cormorant Garamond",serif;min-height:4em;display:flex;align-items:center;justify-content:center;max-width:22em;margin:0 auto 20px;transition:opacity .5s,filter .5s,transform .5s var(--ease)}
+.wish.fade{opacity:0;filter:blur(10px);transform:scale(.97)}
 
-footer{text-align:center;color:var(--mute);padding:40px 16px 56px;font-size:15px}
-footer .big{font-family:"Cormorant Garamond",serif;font-size:30px;color:var(--snow);display:block;margin-bottom:6px}
+/* tea */
+#tea{background:var(--neva)}
+.tea{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,70px);align-items:center}
+.cupbox{position:relative;aspect-ratio:1;max-width:380px;width:100%;margin:0 auto;border-radius:50%;background:radial-gradient(circle at 50% 60%,rgba(226,191,104,.18),transparent 65%)}
+.cupbox svg{width:100%;height:100%}
+.steam path{fill:none;stroke:rgba(255,255,255,.5);stroke-width:5;stroke-linecap:round;stroke-dasharray:60 200;animation:steam 3.4s linear infinite}
+.steam path:nth-child(2){animation-delay:1.1s}.steam path:nth-child(3){animation-delay:2.2s}
+@keyframes steam{from{stroke-dashoffset:200;opacity:0}30%{opacity:1}to{stroke-dashoffset:-60;opacity:0}}
+.liquid{transform-origin:50% 100%;transition:transform 1.2s var(--ease)}
+.count{font:700 clamp(56px,9vw,96px)/1 "Cormorant Garamond",serif;color:var(--gold2)}
+.cl{color:var(--mute);margin:4px 0 20px}
+.teamsg{min-height:3.2em;font:italic 500 22px/1.4 "Cormorant Garamond",serif;color:var(--snow);margin:0 0 20px}
+.float{position:fixed;pointer-events:none;z-index:60;color:var(--gold2);font-size:24px;animation:up 1.8s var(--ease) forwards}
+@keyframes up{to{transform:translate(var(--dx),-170px) rotate(160deg) scale(1.3);opacity:0}}
 
-@media(max-width:600px){.stamp{width:56px;height:66px;top:14px;right:14px}.scene{height:52%}.letter h2{padding-right:60px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+footer{position:relative;text-align:center;color:var(--mute);padding:110px 18px 110px;background:linear-gradient(180deg,#1a2c55,#0a1529)}
+footer .big{display:block;font:700 clamp(30px,4vw,44px)/1.1 "Cormorant Garamond",serif;color:var(--snow);margin-bottom:10px}
+
+@media(max-width:700px){.moon{right:6%!important;top:5%!important;width:46px}.hero .txt{padding-top:64px}.hero p.sub{font-size:15px}.tea{grid-template-columns:1fr;text-align:center}.cupbox{max-width:260px}.paper h3{margin-right:70px}.stamp{width:58px;height:72px;top:26px;right:16px}.card{height:270px}.cue{display:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01s!important}.rv{opacity:1;transform:none;filter:none}}
 </style>
 </head>
 <body>
+<div id="prog"></div>
+<nav class="dock" id="dock" aria-label="Разделы">
+  <a href="#letter">Письмо</a><a href="#reasons">Почему ты</a><a href="#walk">Прогулка</a><a href="#word">Слово</a><a href="#tea">Чай</a>
+</nav>
 
 <header class="hero" id="hero">
+  <div class="stars layer" data-d="0.6"></div>
+  <div class="moon layer" data-d="0.55" style="inset:auto;right:12%;top:14%"></div>
+  <!-- far: Petropavlovka -->
+  <div class="layer" data-d="0.42"><svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs><linearGradient id="far" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4778"/><stop offset="1" stop-color="#2b2f5c"/></linearGradient>
+    <linearGradient id="sp" x1="0" x2="1"><stop offset="0" stop-color="#ffe9a6"/><stop offset="1" stop-color="#b48a33"/></linearGradient></defs>
+    <g id="pp"><rect x="40" y="372" width="520" height="40" fill="url(#far)"/><polygon points="40,372 80,356 520,356 560,372" fill="#3d3c6c"/>
+    <rect x="236" y="268" width="56" height="104" fill="url(#far)"/><rect x="246" y="230" width="36" height="40" fill="#4f4c80"/>
+    <polygon points="264,70 256,230 272,230" fill="url(#sp)"/><circle cx="264" cy="66" r="5" fill="#fff0c0"/>
+    <rect x="200" y="320" width="130" height="52" fill="#3d3c6c"/></g>
+    <rect x="0" y="408" width="1440" height="8" fill="#2b2f5c" opacity=".8"/>
+  </svg></div>
+  <div class="fog"></div>
+  <!-- mid: Winter Palace, Admiralty, Isaac -->
+  <div class="layer" data-d="0.26"><svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="pal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a6dcc8"/><stop offset="1" stop-color="#4f8b78"/></linearGradient>
+      <linearGradient id="dome" x1="0" x2="1"><stop offset="0" stop-color="#f3d48a"/><stop offset=".6" stop-color="#b8903d"/><stop offset="1" stop-color="#7c5d22"/></linearGradient>
+      <rect id="w" width="10" height="16" rx="5" fill="#ffe4a0"/>
+      <rect id="c" width="4" height="52" fill="#eef0e6"/>
+    </defs>
+    <g id="mid">
+      <g transform="translate(1250 0)"><rect x="-10" y="300" width="160" height="110" fill="#3f4a6e"/><path d="M10 300 Q70 200 130 300Z" fill="url(#dome)"/><rect x="60" y="210" width="20" height="22" fill="#d9b45f"/><polygon points="70,170 66,212 74,212" fill="url(#sp)"/></g>
+      <g transform="translate(960 0)"><rect x="0" y="345" width="320" height="65" fill="#efdcae"/><rect x="0" y="341" width="320" height="6" fill="#fff5dc"/>
+        <rect x="130" y="276" width="60" height="70" fill="#f5e7c2"/><rect x="140" y="250" width="40" height="28" fill="#efdcae"/>
+        <polygon points="160,110 152,250 168,250" fill="url(#sp)"/><circle cx="160" cy="106" r="4" fill="#fff0c0"/>
+        <g id="aw"><use href="#w" x="18" y="364"/><use href="#w" x="44" y="364"/><use href="#w" x="70" y="364"/><use href="#w" x="96" y="364"/></g><use href="#aw" x="196"/><use href="#w" x="155" y="294"/></g>
+      <g transform="translate(400 0)"><rect x="0" y="300" width="520" height="110" fill="url(#pal)"/><rect x="0" y="294" width="520" height="8" fill="#f1efe4"/><rect x="0" y="352" width="520" height="4" fill="#f1efe4"/>
+        <g id="cs"><use href="#c" x="12" y="300"/><use href="#c" x="44" y="300"/><use href="#c" x="76" y="300"/><use href="#c" x="108" y="300"/><use href="#c" x="140" y="300"/><use href="#c" x="172" y="300"/><use href="#c" x="204" y="300"/><use href="#c" x="236" y="300"/></g><use href="#cs" x="260"/>
+        <g id="ws"><use href="#w" x="24" y="314"/><use href="#w" x="56" y="314"/><use href="#w" x="88" y="314"/><use href="#w" x="120" y="314"/><use href="#w" x="152" y="314"/><use href="#w" x="184" y="314"/><use href="#w" x="216" y="314"/></g>
+        <use href="#ws" x="260"/><use href="#ws" y="50"/><use href="#ws" x="260" y="50"/>
+        <g fill="#e2bf68"><circle cx="20" cy="284" r="5"/><circle cx="130" cy="284" r="5"/><circle cx="260" cy="280" r="6"/><circle cx="390" cy="284" r="5"/><circle cx="500" cy="284" r="5"/></g></g>
+      <rect x="0" y="410" width="1440" height="16" fill="#5d627d"/><rect x="0" y="424" width="1440" height="4" fill="#3a3f5c"/>
+    </g>
+  </svg></div>
+  <!-- water with reflections -->
+  <div class="layer" data-d="0.14"><svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+    <defs><linearGradient id="wat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c4472"/><stop offset="1" stop-color="#0d1a33"/></linearGradient>
+      <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".6" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      <mask id="rm"><rect x="0" y="428" width="1440" height="172" fill="url(#fade)"/></mask></defs>
+    <rect x="0" y="428" width="1440" height="172" fill="url(#wat)"/>
+    <g mask="url(#rm)" opacity=".7"><use href="#mid" transform="translate(0 856) scale(1 -1)"/><use href="#pp" transform="translate(0 856) scale(1 -1)" opacity=".5"/></g>
+    <g class="shine" fill="#ffe7a8" opacity=".4"><rect x="540" y="450" width="80" height="2"/><rect x="660" y="470" width="110" height="2"/><rect x="1060" y="462" width="90" height="2"/><rect x="200" y="466" width="60" height="2"/><rect x="460" y="500" width="100" height="2"/><rect x="1260" y="490" width="70" height="2"/><rect x="860" y="520" width="90" height="2"/><rect x="300" y="530" width="70" height="2"/><rect x="1500" y="480" width="80" height="2"/></g>
+  </svg></div>
+  <!-- front: Palace Bridge + railing -->
+  <div class="layer" data-d="0.05"><svg viewBox="0 0 1440 600" preserveAspectRatio="xMidYMax slice" aria-hidden="true" id="bridgeSvg">
+    <defs><linearGradient id="br" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a6690"/><stop offset="1" stop-color="#323a5c"/></linearGradient>
+      <radialGradient id="glow"><stop offset="0" stop-color="#ffe6a6" stop-opacity=".9"/><stop offset="1" stop-color="#ffe6a6" stop-opacity="0"/></radialGradient>
+      <pattern id="rail" width="34" height="40" patternUnits="userSpaceOnUse"><circle cx="17" cy="20" r="11" fill="none" stroke="#070f20" stroke-width="3"/><rect x="0" y="0" width="34" height="3" fill="#070f20"/></pattern></defs>
+    <rect x="360" y="460" width="46" height="90" fill="#262d48"/><rect x="1034" y="460" width="46" height="90" fill="#262d48"/>
+    <rect x="0" y="444" width="384" height="20" fill="url(#br)"/><rect x="1056" y="444" width="384" height="20" fill="url(#br)"/>
+    <g class="leaf leafL" style="transform-origin:384px 454px"><rect x="384" y="444" width="336" height="20" fill="url(#br)"/><rect x="384" y="440" width="336" height="4" fill="#e2bf68"/><g fill="#ffe7a8"><circle cx="460" cy="432" r="3"/><circle cx="560" cy="432" r="3"/><circle cx="660" cy="432" r="3"/></g><g fill="#7d88ad"><rect x="459" y="432" width="2" height="10"/><rect x="559" y="432" width="2" height="10"/><rect x="659" y="432" width="2" height="10"/></g></g>
+    <g class="leaf leafR" style="transform-origin:1056px 454px"><rect x="720" y="444" width="336" height="20" fill="url(#br)"/><rect x="720" y="440" width="336" height="4" fill="#e2bf68"/><g fill="#ffe7a8"><circle cx="780" cy="432" r="3"/><circle cx="880" cy="432" r="3"/><circle cx="980" cy="432" r="3"/></g><g fill="#7d88ad"><rect x="779" y="432" width="2" height="10"/><rect x="879" y="432" width="2" height="10"/><rect x="979" y="432" width="2" height="10"/></g></g>
+    <rect x="0" y="440" width="384" height="4" fill="#e2bf68"/><rect x="1056" y="440" width="384" height="4" fill="#e2bf68"/>
+    <!-- foreground embankment -->
+    <rect x="0" y="548" width="1440" height="52" fill="#0a1426"/>
+    <rect x="0" y="510" width="1440" height="40" fill="url(#rail)"/>
+    <g id="lp"><rect x="120" y="440" width="6" height="110" fill="#070f20"/><rect x="108" y="432" width="30" height="10" rx="3" fill="#070f20"/><circle class="lamp" cx="123" cy="424" r="34" fill="url(#glow)"/><circle cx="123" cy="424" r="8" fill="#fff1c8"/></g>
+    <use href="#lp" x="420"/><use href="#lp" x="780"/><use href="#lp" x="1160"/>
+  </svg></div>
   <canvas id="snow"></canvas>
-  <div class="txt">
-    <p class="kicker">Открытка с набережной Невы</p>
+  <div class="txt" data-d="0.7" id="htxt">
+    <p class="kicker">Открытка с берегов Невы</p>
     <h1>Дорогая Екатерина</h1>
-    <p class="sub">В Петербурге сейчас ноябрь — рано темнеет, с Невы дует ветер, и небо бывает таким серым. Поэтому этот маленький город огней — только для тебя. Нажми, и мосты разведутся, чтобы пропустить к тебе письмо.</p>
+    <p class="sub">В Петербурге ноябрь: рано темнеет, с залива дует ветер, а небо бывает совсем серым. Поэтому я зажёг для тебя этот маленький город огней. Разведи мосты — и письмо приплывёт к тебе по Неве.</p>
     <button class="btn" id="bridgeBtn">Развести мосты</button>
+    <p class="bridge-note" id="note">&nbsp;</p>
   </div>
-  <div class="scene">
-    <svg viewBox="0 0 1200 420" preserveAspectRatio="xMidYMax slice" aria-label="Ночной Петербург: Петропавловский шпиль, Адмиралтейство, Зимний дворец и Дворцовый мост над Невой">
-      <defs>
-        <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#28406b"/><stop offset="1" stop-color="#0f1e38"/></linearGradient>
-        <linearGradient id="spire" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f5dc94"/><stop offset="1" stop-color="#b98d32"/></linearGradient>
-        <linearGradient id="palace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd4c1"/><stop offset="1" stop-color="#5f9c88"/></linearGradient>
-        <g id="win"><rect width="9" height="14" rx="4" fill="#ffe7a8"/></g>
-        <g id="col"><rect width="4" height="46" fill="#f1ede2"/></g>
-      </defs>
-      <circle class="moon" cx="1010" cy="70" r="34" fill="#fff6e6" opacity=".95"/>
-      <!-- far bank: Petropavlovka -->
-      <g fill="#2a2c55">
-        <rect x="40" y="250" width="300" height="40"/>
-        <rect x="150" y="190" width="40" height="70"/>
-      </g>
-      <polygon points="170,40 162,190 178,190" fill="url(#spire)"/>
-      <circle cx="170" cy="38" r="4" fill="#ffe8a8"/>
-      <rect x="156" y="190" width="28" height="12" fill="#e2bf68"/>
-      <!-- Admiralty -->
-      <g transform="translate(860 0)">
-        <rect x="0" y="235" width="300" height="55" fill="#e8d6a8"/>
-        <rect x="120" y="185" width="60" height="55" fill="#f0e2bb"/>
-        <polygon points="150,60 143,185 157,185" fill="url(#spire)"/>
-        <use href="#win" x="20" y="252"/><use href="#win" x="50" y="252"/><use href="#win" x="80" y="252"/><use href="#win" x="210" y="252"/><use href="#win" x="240" y="252"/><use href="#win" x="270" y="252"/>
-        <use href="#win" x="145" y="200"/>
-      </g>
-      <!-- Winter Palace -->
-      <g transform="translate(380 0)">
-        <rect x="0" y="200" width="440" height="95" fill="url(#palace)"/>
-        <rect x="0" y="196" width="440" height="7" fill="#f1ede2"/>
-        <rect x="0" y="244" width="440" height="4" fill="#f1ede2"/>
-        <g id="cols"><use href="#col" x="12" y="200"/><use href="#col" x="40" y="200"/><use href="#col" x="68" y="200"/><use href="#col" x="96" y="200"/><use href="#col" x="124" y="200"/><use href="#col" x="152" y="200"/><use href="#col" x="180" y="200"/><use href="#col" x="208" y="200"/></g>
-        <use href="#cols" x="216"/>
-        <g id="wins"><use href="#win" x="22" y="214"/><use href="#win" x="50" y="214"/><use href="#win" x="78" y="214"/><use href="#win" x="106" y="214"/><use href="#win" x="134" y="214"/><use href="#win" x="162" y="214"/><use href="#win" x="190" y="214"/></g>
-        <use href="#wins" x="216"/><use href="#wins" y="40"/><use href="#wins" x="216" y="40"/>
-        <g fill="#e2bf68"><circle cx="20" cy="190" r="4"/><circle cx="110" cy="190" r="4"/><circle cx="220" cy="186" r="5"/><circle cx="330" cy="190" r="4"/><circle cx="420" cy="190" r="4"/></g>
-      </g>
-      <!-- embankment -->
-      <rect x="0" y="290" width="1200" height="14" fill="#5a5f78"/>
-      <rect x="0" y="302" width="1200" height="4" fill="#3c415c"/>
-      <!-- Neva -->
-      <rect x="0" y="306" width="1200" height="114" fill="url(#water)"/>
-      <g class="ripple" fill="#ffe7a8" opacity=".35">
-        <rect x="560" y="330" width="60" height="2"/><rect x="640" y="350" width="90" height="2"/><rect x="980" y="340" width="70" height="2"/><rect x="150" y="345" width="50" height="2"/><rect x="420" y="370" width="80" height="2"/><rect x="1100" y="365" width="60" height="2"/><rect x="760" y="385" width="70" height="2"/><rect x="250" y="390" width="60" height="2"/>
-      </g>
-      <rect x="166" y="318" width="8" height="70" fill="#e2bf68" opacity=".25"/>
-      <rect x="1006" y="318" width="8" height="60" fill="#e2bf68" opacity=".25"/>
-      <!-- Palace Bridge -->
-      <g id="bridge">
-        <rect x="250" y="330" width="40" height="70" fill="#2e3550"/>
-        <rect x="910" y="330" width="40" height="70" fill="#2e3550"/>
-        <rect x="80" y="316" width="190" height="16" fill="#3e4868"/>
-        <rect x="930" y="316" width="190" height="16" fill="#3e4868"/>
-        <g class="leaf leafL" style="transform-origin:290px 324px"><rect x="290" y="316" width="310" height="16" fill="#4b5679"/><rect x="290" y="312" width="310" height="4" fill="#e2bf68"/></g>
-        <g class="leaf leafR" style="transform-origin:910px 324px"><rect x="600" y="316" width="310" height="16" fill="#4b5679"/><rect x="600" y="312" width="310" height="4" fill="#e2bf68"/></g>
-        <g fill="#ffe7a8"><circle cx="270" cy="306" r="5"/><circle cx="930" cy="306" r="5"/></g>
-        <g fill="#5a6488"><rect x="268" y="306" width="4" height="12"/><rect x="928" y="306" width="4" height="12"/></g>
-      </g>
-    </svg>
-  </div>
+  <div class="cue" aria-hidden="true"></div>
 </header>
 
-<section class="band" id="letterBand">
+<section class="band" id="letter">
   <div class="wrap">
-    <p class="locked" id="locked">Письмо ждёт, пока мосты разведут…</p>
-    <article class="letter" id="letter" hidden>
-      <div class="stamp" aria-hidden="true"><svg width="40" height="56" viewBox="0 0 40 56"><polygon points="20,2 17,40 23,40" fill="#e2bf68"/><rect x="10" y="40" width="20" height="14" fill="#f6f3ec"/></svg></div>
-      <h2>Привет, моя дорогая Екатерина!</h2>
-      <p>Я просто хотел напомнить тебе одну простую вещь: ты очень важна для меня. Даже если между нами километры, ты всегда рядом — в моих мыслях и в моём сердце.</p>
-      <p>Я знаю, что бывают дни, когда всё кажется тяжёлым, а петербургское небо давит своей серостью. Но помни: после самой длинной ночи над Невой всегда наступает утро, а летом здесь и вовсе не бывает темноты — белые ночи обязательно вернутся.</p>
-      <p>Ты сильная, добрая и настоящая. Ты умеешь согревать людей вокруг себя — позволь и мне сейчас немного согреть тебя.</p>
-      <p>Заваривай горячий чай, укутывайся в плед и знай: где-то есть человек, который очень-очень тебя ценит и всегда готов выслушать.</p>
-      <p class="sign">Обнимаю крепко,<br>твой верный друг</p>
+    <div class="lock rv" id="lock">
+      <p>Письмо ждёт на другом берегу. Мосты нужно развести, чтобы оно смогло проплыть.</p>
+      <button class="btn" id="bridgeBtn2">Развести мосты</button>
+    </div>
+    <article class="paper" id="paper" hidden>
+      <div class="stamp" aria-hidden="true"><div><svg width="40" height="62" viewBox="0 0 40 62"><polygon points="20,2 16,44 24,44" fill="#e2bf68"/><rect x="9" y="44" width="22" height="18" fill="#f6f3ec"/></svg></div></div>
+      <h3>Привет, моя дорогая подруга Екатерина!</h3>
+      <p>Я знаю, что у нас бывают взлёты и падения, и что ты ценишь своё личное пространство — так же, как любишь иногда исчезать. Я уважаю это и никогда не попрошу тебя меняться.</p>
+      <p>Я знаю, что расстояние между нами огромное, но обещаю: однажды мы встретимся и будем наслаждаться твоим городом, как это делают старые друзья.</p>
+      <p>Ты мне очень дорога, и я искренне рад, что ты есть в моей жизни. Ты всегда можешь на меня рассчитывать — и я всегда буду там, где буду тебе нужен.</p>
+      <p class="sign">Твой верный друг</p>
     </article>
   </div>
 </section>
 
 <section class="band" id="reasons">
   <div class="wrap">
-    <h2>Почему ты чудесная</h2>
-    <p class="hint">Нажми на карточку, чтобы её перевернуть.</p>
+    <h2 class="rv">Почему ты особенная</h2>
+    <p class="lead rv">Шесть окон, как в петербургских дворцах. Нажми на окно — и оно откроется.</p>
     <div class="grid" id="grid"></div>
   </div>
 </section>
 
-<section class="band wish-band">
-  <div class="wrap center">
-    <h2>Тёплое слово на сегодня</h2>
+<section class="band" id="walk">
+  <div class="wrap">
+    <h2 class="rv">Наша будущая прогулка</h2>
+    <p class="lead rv">Обещание из письма: однажды мы пройдём этот маршрут вместе — неспешно, как старые друзья.</p>
+    <div class="route" id="route"><div class="track"><i id="trackFill"></i></div></div>
+  </div>
+</section>
+
+<section class="band wave" id="word">
+  <svg class="rose" viewBox="0 0 200 200" aria-hidden="true"><g fill="none" stroke="#e2bf68" stroke-width=".8"><circle cx="100" cy="100" r="90"/><circle cx="100" cy="100" r="70"/><circle cx="100" cy="100" r="40"/></g><g fill="#e2bf68"><polygon points="100,4 106,94 100,100 94,94"/><polygon points="100,196 106,106 100,100 94,106"/><polygon points="4,100 94,94 100,100 94,106"/><polygon points="196,100 106,94 100,100 106,106"/></g><g fill="#8cc7b3"><polygon points="32,32 98,96 96,98"/><polygon points="168,32 102,96 104,98"/><polygon points="32,168 96,102 98,104"/><polygon points="168,168 104,102 102,104"/></g></svg>
+  <div class="wrap">
+    <h2 class="rv">Тёплое слово на сегодня</h2>
     <div class="wish" id="wish" aria-live="polite">Пусть сегодня тебе улыбнётся хотя бы один незнакомец на Невском.</div>
     <button class="ghost" id="wishBtn">Ещё одно тёплое слово</button>
   </div>
 </section>
 
-<section class="band">
-  <div class="wrap">
-    <h2 class="center">Обнимашки на расстоянии</h2>
-    <div class="hug">
-      <button class="heart" id="heart" aria-label="Отправить объятие">Обнять</button>
-      <div>
-        <div class="count" id="count">0</div>
-        <p class="hugmsg" id="hugmsg">Нажимай на сердце — каждое объятие летит прямо в Петербург.</p>
-      </div>
+<section class="band" id="tea">
+  <div class="wrap tea">
+    <div class="cupbox rv">
+      <svg viewBox="0 0 300 300" aria-label="Стакан чая в подстаканнике">
+        <defs><linearGradient id="tg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d98a3a"/><stop offset="1" stop-color="#8a3e12"/></linearGradient>
+          <linearGradient id="hold" x1="0" x2="1"><stop offset="0" stop-color="#8a6a28"/><stop offset=".45" stop-color="#f6dc95"/><stop offset="1" stop-color="#8a6a28"/></linearGradient>
+          <clipPath id="glass"><path d="M98 96 H202 L190 236 H110Z"/></clipPath></defs>
+        <g class="steam"><path d="M130 86 C118 66 142 52 130 30"/><path d="M152 86 C140 62 166 50 152 22"/><path d="M174 86 C162 66 186 52 174 32"/></g>
+        <path d="M98 96 H202 L190 236 H110Z" fill="rgba(255,255,255,.12)" stroke="rgba(255,255,255,.45)" stroke-width="2"/>
+        <g clip-path="url(#glass)"><rect class="liquid" id="liquid" x="90" y="110" width="120" height="130" fill="url(#tg)" style="transform:scaleY(.15)"/></g>
+        <rect x="112" y="104" width="6" height="110" rx="3" fill="rgba(255,255,255,.3)"/>
+        <path d="M104 170 H196 L188 246 H112Z" fill="url(#hold)"/>
+        <g fill="none" stroke="#7a5a1c" stroke-width="2"><path d="M120 186 q30 18 60 0"/><path d="M118 206 q32 18 64 0"/><circle cx="150" cy="226" r="7"/></g>
+        <path d="M196 182 C238 182 238 232 192 232" fill="none" stroke="url(#hold)" stroke-width="10" stroke-linecap="round"/>
+        <ellipse cx="150" cy="252" rx="56" ry="9" fill="url(#hold)"/>
+        <path d="M180 92 L214 54" stroke="#cfd6e4" stroke-width="5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="rv">
+      <h2>Чай на расстоянии</h2>
+      <p class="lead">Налей себе чашку — а я налью свою. Так между Петербургом и мной становится немного теплее.</p>
+      <div class="count" id="count">0</div>
+      <p class="cl">чашек чая выпито вместе</p>
+      <p class="teamsg" id="teamsg">Стакан в подстаканнике уже ждёт.</p>
+      <button class="btn" id="teaBtn">Налить чаю</button>
     </div>
   </div>
 </section>
 
-<footer>
-  <span class="big">С любовью — для Екатерины</span>
-  Петербург, где бы ты ни была, светит тебе фонарями набережных.
+<footer class="wave">
+  <span class="big">С теплом и дружбой — для Екатерины</span>
+  Пусть фонари на набережных светят тебе каждый вечер, а мосты всегда соединяют берега.
 </footer>
 
 <script>
 {
-const $=s=>document.querySelector(s);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* icons for windows: friendly symbols */
+const ic={
+ sun:'<svg class="ico" viewBox="0 0 54 54"><circle cx="27" cy="27" r="10" fill="#f6dc95"/><g stroke="#f6dc95" stroke-width="3" stroke-linecap="round"><path d="M27 5v7M27 42v7M5 27h7M42 27h7M11 11l5 5M38 38l5 5M43 11l-5 5M16 38l-5 5"/></g></svg>',
+ flake:'<svg class="ico" viewBox="0 0 54 54"><g stroke="#cfe9e0" stroke-width="3" stroke-linecap="round"><path d="M27 5v44M8 16l38 22M46 16L8 38"/><path d="M21 9l6 5 6-5M21 45l6-5 6 5"/></g></svg>',
+ star:'<svg class="ico" viewBox="0 0 54 54"><path d="M27 4l6 17h17l-14 10 5 18-14-11-14 11 5-18L4 21h17z" fill="#f6dc95"/></svg>',
+ key:'<svg class="ico" viewBox="0 0 54 54"><circle cx="18" cy="27" r="10" fill="none" stroke="#f6dc95" stroke-width="4"/><path d="M28 27h20M42 27v8M48 27v6" stroke="#f6dc95" stroke-width="4" stroke-linecap="round"/></svg>',
+ book:'<svg class="ico" viewBox="0 0 54 54"><path d="M27 14c-6-5-14-5-20-3v30c6-2 14-2 20 3 6-5 14-5 20-3V11c-6-2-14-2-20 3z" fill="none" stroke="#cfe9e0" stroke-width="3"/><path d="M27 14v30" stroke="#cfe9e0" stroke-width="3"/></svg>',
+ hands:'<svg class="ico" viewBox="0 0 54 54"><path d="M6 30l10-10 9 6 8-6 15 10-12 12-6-5-5 5z" fill="none" stroke="#f6dc95" stroke-width="3" stroke-linejoin="round"/></svg>'
+};
 const reasons=[
- ["Твоя улыбка","Она способна осветить даже самый пасмурный петербургский день."],
- ["Твоё сердце","Ты умеешь сопереживать так, как умеют немногие."],
- ["Твоя сила","Ты проходишь через трудности и остаёшься собой. Это восхищает."],
- ["Твой смех","Он заразительнее, чем звон колоколов Исаакия."],
- ["Твоя искренность","С тобой можно быть настоящим, без масок."],
- ["Твоя дружба","Это подарок, который я ценю больше всего."]
+ ["Твоя улыбка","Она может осветить даже самый пасмурный петербургский день.",ic.sun],
+ ["Твоя независимость","Ты знаешь, когда тебе нужна тишина. И это очень мудро.",ic.key],
+ ["Твоя сила","Ты проходишь через трудности и остаёшься собой.",ic.star],
+ ["Твоя искренность","С тобой можно быть настоящим, без масок и ролей.",ic.flake],
+ ["Твой взгляд на мир","С тобой я узнаю твою культуру и вижу всё по-новому.",ic.book],
+ ["Твоя дружба","Это подарок, который я по-настоящему ценю.",ic.hands]
 ];
-$('#grid').innerHTML=reasons.map((r,i)=>`<button class="card" aria-label="${r[0]}"><span class="inner"><span class="face front"><b>${r[0]}</b><small>Причина № ${i+1}</small></span><span class="face back">${r[1]}</span></span></button>`).join('');
-document.querySelectorAll('.card').forEach(c=>c.addEventListener('click',()=>c.classList.toggle('flip')));
+$('#grid').innerHTML=reasons.map((r,i)=>`<button class="card rv" style="transition-delay:${i*.08}s" aria-label="${r[0]}"><span class="inner"><span class="face front">${r[2]}<b>${r[0]}</b><small>Окно № ${i+1}</small></span><span class="face back">${r[1]}</span></span></button>`).join('');
+$$('.card').forEach(c=>{
+  c.addEventListener('click',()=>c.classList.toggle('flip'));
+  c.addEventListener('pointermove',e=>{if(still||e.pointerType!=='mouse')return;const b=c.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;c.style.transform=`perspective(900px) rotateX(${-y*10}deg) rotateY(${x*12}deg) translateY(-6px)`});
+  c.addEventListener('pointerleave',()=>c.style.transform='');
+});
+
+const stops=[
+ ["Утро","Дворцовая площадь","Начнём у Александровской колонны и посмотрим, как солнце играет на фасаде Зимнего дворца."],
+ ["Полдень","Эрмитаж","Потеряемся в залах среди картин — и найдём друг друга у окна с видом на Неву."],
+ ["После обеда","Летний сад","Пройдёмся по аллеям среди статуй, никуда не спеша, как настоящие петербуржцы."],
+ ["Перерыв","Пышки и кофе","Пышки с сахарной пудрой — обязательная остановка. Без них прогулка не считается."],
+ ["Вечер","Новая Голландия","Посидим у воды и поболтаем обо всём на свете: о твоей стране, о моей, о нас, друзьях."],
+ ["Ночь","Разведение мостов","А ночью будем смотреть, как поднимается Дворцовый мост — и как город открывается навстречу."]
+];
+$('#route').insertAdjacentHTML('beforeend',stops.map(s=>`<div class="stop rv"><span class="t">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p></div>`).join(''));
 
 const wishes=[
  "Пусть сегодня тебе улыбнётся хотя бы один незнакомец на Невском.",
- "Пусть каждый мост, который разводят ночью, уносит с собой твои тревоги.",
+ "Пусть каждый разведённый ночью мост уносит с собой твои тревоги.",
  "Пусть в твоей чашке всегда будет горячий чай, а в доме — уют.",
- "Ты заслуживаешь столько же нежности, сколько даришь другим.",
- "Пусть белые ночи наступят и в твоей душе — светлые и тёплые.",
- "Даже Нева иногда бурлит. И это нормально — потом она снова спокойна.",
+ "Ты заслуживаешь столько же тепла, сколько даришь другим.",
+ "Даже Нева иногда волнуется. А потом снова становится спокойной.",
  "Пусть впереди будет больше прогулок по набережным и меньше серых дней.",
- "Ты не одна. Никогда. Я рядом, даже если далеко.",
+ "Исчезай, когда нужно. Я всегда буду здесь, когда вернёшься.",
  "Пусть ангел на шпиле Петропавловки бережёт тебя каждый день.",
+ "Мосты разводят, чтобы пропустить корабли. А утром они снова соединяют берега.",
  "Позволь себе отдохнуть. Ты уже сделала очень много."
 ];
 let wi=0;
-$('#wishBtn').addEventListener('click',()=>{
-  const w=$('#wish');w.classList.add('fade');
-  setTimeout(()=>{wi=(wi+1)%wishes.length;w.textContent=wishes[wi];w.classList.remove('fade')},400);
+$('#wishBtn').addEventListener('click',()=>{const w=$('#wish');w.classList.add('fade');setTimeout(()=>{wi=(wi+1)%wishes.length;w.textContent=wishes[wi];w.classList.remove('fade')},500)});
+
+/* bridge */
+let open=false;
+const notes=["Мосты открываются — как люди, когда доверяют друг другу.","Два берега, две культуры — и один путь навстречу."];
+const toggle=(scroll)=>{
+  open=!open;$('#hero').classList.toggle('open',open);
+  $('#bridgeBtn').textContent=open?'Свести мосты':'Развести мосты';
+  $('#note').textContent=open?notes[0]:notes[1];
+  if(open){const p=$('#paper');$('#lock').hidden=true;p.hidden=false;
+    setTimeout(()=>{p.classList.add('show');if(scroll)$('#letter').scrollIntoView({behavior:'smooth'})},scroll?2400:50);}
+};
+$('#bridgeBtn').addEventListener('click',()=>toggle(true));
+$('#bridgeBtn2').addEventListener('click',()=>{scrollTo({top:0,behavior:'smooth'});setTimeout(()=>toggle(true),700)});
+
+/* tea */
+const tmsg=["Горячо! Осторожно, не обожгись.","Ещё стаканчик — и к нему пышка.","Такими темпами нам понадобится самовар.","Чай согревает, а дружба — ещё сильнее.","За нашу будущую прогулку по Петербургу!","Чай с лимоном или с вареньем? Расскажешь при встрече."];
+let n=0;try{n=+localStorage.getItem('chai')||0}catch(e){}
+const setLiquid=()=>$('#liquid').style.transform=`scaleY(${.15+.85*((n%5)+1)/5})`;
+$('#count').textContent=n;if(n)setLiquid();
+$('#teaBtn').addEventListener('click',e=>{
+  n++;$('#count').textContent=n;try{localStorage.setItem('chai',n)}catch(err){}
+  $('#teamsg').textContent=tmsg[(n-1)%tmsg.length];setLiquid();
+  for(let i=0;i<6;i++){const f=document.createElement('span');f.className='float';f.textContent=i%2?'❄︎':'✦';
+    f.style.left=(e.clientX||innerWidth/2)-10+'px';f.style.top=(e.clientY||innerHeight/2)-20+'px';f.style.setProperty('--dx',(Math.random()*160-80)+'px');f.style.animationDelay=i*.07+'s';
+    f.style.color=i%3?'#f6dc95':'#cfe9e0';document.body.appendChild(f);setTimeout(()=>f.remove(),2200)}
 });
 
-const btn=$('#bridgeBtn');let open=false;
-btn.addEventListener('click',()=>{
-  open=!open;
-  $('#hero').classList.toggle('open',open);
-  btn.textContent=open?'Свести мосты':'Развести мосты';
-  if(open){
-    const l=$('#letter');$('#locked').hidden=true;l.hidden=false;
-    setTimeout(()=>{l.classList.add('show');$('#letterBand').scrollIntoView({behavior:'smooth'})},1600);
-  }
-});
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}}),{threshold:.18});
+$$('.rv').forEach(el=>io.observe(el));
 
-const msgs=["Объятие доставлено на Васильевский!","Ещё одно — тёплое, как пышки с Большой Конюшенной.","Это объятие пролетело над Дворцовой площадью.","Столько объятий, что Нева скоро растает!","Ты окружена теплом со всех сторон."];
-let n=0;try{n=+localStorage.getItem('hugs')||0}catch(e){}
-$('#count').textContent=n;
-$('#heart').addEventListener('click',e=>{
-  n++;$('#count').textContent=n;try{localStorage.setItem('hugs',n)}catch(err){}
-  $('#hugmsg').textContent=msgs[n%msgs.length];
-  const h=$('#heart');h.classList.remove('pulse');void h.offsetWidth;h.classList.add('pulse');
-  const f=document.createElement('span');f.className='float';f.textContent='♥';
-  f.style.left=(e.clientX||innerWidth/2)-10+'px';f.style.top=(e.clientY||innerHeight/2)-20+'px';
-  document.body.appendChild(f);setTimeout(()=>f.remove(),1600);
-});
+/* parallax + progress + dock */
+const layers=$$('.hero [data-d]'),hero=$('#hero'),txt=$('#htxt');
+let mx=0,my=0,tx=0,ty=0;
+addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5}});
+const secs=['letter','reasons','walk','word','tea'].map(id=>document.getElementById(id));
+const frame=()=>{
+  const y=scrollY,h=hero.offsetHeight;tx+=(mx-tx)*.06;ty+=(my-ty)*.06;
+  if(y<h*1.2&&!still)layers.forEach(l=>{const d=+l.dataset.d;l.style.transform=`translate3d(${-tx*d*60}px,${y*d+(-ty*d*24)}px,0)`});
+  if(!still)txt.style.opacity=Math.max(0,1-y/(h*.55));
+  const max=document.documentElement.scrollHeight-innerHeight;$('#prog').style.transform=`scaleX(${max>0?y/max:0})`;
+  $('#dock').classList.toggle('on',y>h*.6);
+  let cur=-1;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)cur=i});
+  $$('.dock a').forEach((a,i)=>a.classList.toggle('act',i===cur));
+  const r=$('#route').getBoundingClientRect(),p=Math.min(1,Math.max(0,(innerHeight*.6-r.top)/r.height));
+  $('#trackFill').style.transform=`scaleY(${p})`;
+  requestAnimationFrame(frame);
+};
+requestAnimationFrame(frame);
 
-const cv=$('#snow'),cx=cv.getContext('2d');let flakes=[];
-const size=()=>{cv.width=cv.clientWidth;cv.height=cv.clientHeight;flakes=Array.from({length:Math.round(cv.width/9)},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*2.2+.6,s:Math.random()*.6+.3,d:Math.random()*Math.PI*2}))};
+/* snow with depth: three sizes, near flakes blurred via alpha */
+const cv=$('#snow'),cx=cv.getContext('2d');let fl=[];const dpr=Math.min(2,devicePixelRatio||1);
+const size=()=>{cv.width=cv.clientWidth*dpr;cv.height=cv.clientHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);
+  fl=Array.from({length:Math.round(cv.clientWidth/7)},()=>{const z=Math.random();return{x:Math.random()*cv.clientWidth,y:Math.random()*cv.clientHeight,z,r:.6+z*z*3.4,s:.25+z*1.1,d:Math.random()*6.3}})};
 size();new ResizeObserver(size).observe(cv);
-const still=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const tick=()=>{cx.clearRect(0,0,cv.width,cv.height);cx.fillStyle='rgba(255,255,255,.85)';
-  for(const f of flakes){f.y+=f.s;f.d+=.01;f.x+=Math.sin(f.d)*.4;if(f.y>cv.height){f.y=-4;f.x=Math.random()*cv.width}cx.beginPath();cx.arc(f.x,f.y,f.r,0,7);cx.fill()}
-  if(!still)requestAnimationFrame(tick)};
-tick();
+const snow=()=>{const W=cv.clientWidth,H=cv.clientHeight;cx.clearRect(0,0,W,H);
+  for(const f of fl){f.y+=f.s;f.d+=.012;f.x+=Math.sin(f.d)*.5*f.z-tx*f.z*.6;if(f.y>H+6){f.y=-6;f.x=Math.random()*W}if(f.x<-6)f.x=W+6;if(f.x>W+6)f.x=-6;
+    cx.globalAlpha=.35+f.z*.55;cx.fillStyle='#fff';cx.beginPath();cx.arc(f.x,f.y,f.r,0,6.3);cx.fill()}
+  if(!still)requestAnimationFrame(snow)};
+snow();
 }
 </script>
 </body>
